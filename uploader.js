@@ -27,14 +27,19 @@ async function uploadFile(filePath, assetId) {
   const uploadChunkUrl = `https://portal-api.cfx.re/v1/assets/${assetId}/upload-chunk`;
 
   try {
+    // Calculate chunk count based on max chunk size of 1376280
+    const maxChunkSize = 1376280;
+    const fileSize = fs.statSync(filePath).size;
+    const chunkCount = Math.ceil(fileSize / maxChunkSize);
+
     // Step 1: Send initial upload request
     const initialResponse = await axios.post(
       uploadUrl,
       {
         name: fileName.replace('.zip', ''),
-        chunk_count: 4,
-        chunk_size: 1376280,
-        total_size: fs.statSync(filePath).size,
+        chunk_count: chunkCount,
+        chunk_size: maxChunkSize,
+        total_size: fileSize,
         original_file_name: fileName,
       },
       {
@@ -50,7 +55,7 @@ async function uploadFile(filePath, assetId) {
 
     // Step 2: Split file into chunks and upload each chunk
     const fileBuffer = fs.readFileSync(filePath);
-    const chunkSize = 1376280; // Chunk size from the request
+    const chunkSize = maxChunkSize; // Use the maximum chunk size
     let offset = 0;
     let chunkIndex = 0;
 
