@@ -14,7 +14,7 @@ A command-line tool for automatically creating and uploading both escrow and ope
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/fivem-asset-exporter.git
+   git clone https://github.com/SinapsDev/fivem-asset-exporter.git
    ```
 
 2. Install dependencies and tool globally:
