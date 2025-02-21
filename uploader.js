@@ -100,6 +100,10 @@ async function uploadFile(filePath, assetId) {
         }
       );
       console.log('Complete upload response:', completeUploadResponse.data);
+      
+      // Delete the zip file after successful upload
+      await fs.unlink(filePath);
+      console.log(`Deleted uploaded file: ${filePath}`);
     } catch (error) {
       console.error('Error during complete upload:', error.response?.data || error.message);
     }
